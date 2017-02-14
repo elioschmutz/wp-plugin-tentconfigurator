@@ -1,0 +1,181 @@
+@mixin button {
+  background-color: #458be3;
+  color: white;
+  border: 1px solid #ddd;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  display: inline-block;
+  align-items: center;
+  &:hover {
+    background-color: #45a7e3;
+  }
+}
+
+#wizard-form {
+  button.highlight,
+  input.highlight {
+    @include button();    
+  }
+  .right {
+    float: right;
+  }
+  .navigationControls {
+    display: block;
+    padding: 1em;
+    overflow: hidden;
+    margin-bottom: 1em;
+  }
+  .masterByline {
+    margin: 1em;
+    display: block;
+    .bylineItem {
+      background-color: #efefef;
+      display: inline-block;
+      padding: 0.2em 0.5em;
+      margin: 0.1em 0;
+    }
+  }
+  .wizardStepView {
+    display: block;
+    padding: 1em;
+    .contactForm {
+      align-content: center;
+      width: 50%;
+      > select,
+      > input {
+        width: 100%;
+        margin-bottom: 1em;
+        padding: 0.5em;
+      }
+    }
+    .addButton {
+      @include button();
+    }
+    .price {
+      float: right;
+    }
+    .total {
+      font-size: 1.2em;
+      font-weight: bold;
+      width: calc(100% - 40px);
+    }
+    .info {
+      width: calc(100% - 40px);
+    }
+    ul.listing {
+      list-style: none;
+      margin: 1em 0;
+      padding: 0;
+      li {
+        height: 75px;
+        border-bottom: 1px solid #F2F2F2;
+        padding: 1em 0;
+        .remove {
+          font-size: 1.5em;
+          text-align: right;
+          cursor: pointer;
+          color: #b10000;
+          float: right;
+          width: 40px;
+          height: 100%;
+          &:hover {
+            color: red;
+          }
+        }
+        .title {
+          font-weight: bold;
+          display: block;
+          font-size: 1.2em;
+        }
+
+      }
+    }
+    ul.listing.selectable {
+      li {
+        cursor: pointer;
+        padding: 1em;
+        &:hover {
+          background-color: #F2F2F2;
+        }
+      }
+
+    }
+  }
+  .wizard {
+    $max-steps: 6;
+    counter-reset: step;
+    display: flex;
+    justify-content: space-between;
+    margin: 2em 2em 3em 2em;
+    position: relative;
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0.75em;
+      bottom: 0.75em;
+      left: 0;
+      right: 0;
+      background: #ccc;
+    }
+    &:after {
+      background: #458be3;
+      transition: right 0.5s;
+    }
+    @for $i from 2 through $max-steps {
+      &[data-steps="#{$i}"] {
+        @for $j from 1 through ($i) {
+          &[data-current-step="#{$j}"] {
+            &:after {
+              right: 100% - ($j - 1) * (100% / ($i - 1));
+            }
+            & p:nth-child(#{$j}) {
+              color: black;
+            }
+          }
+          @for $y from 0 through $j - 1 {
+            &[data-current-step="#{$j}"] p:nth-child(#{$y}) {
+              &:before {
+                content: '✔︎';
+              }
+            }
+          }
+          @for $y from 1 through $j {
+            &[data-current-step="#{$j}"] p:nth-child(#{$y}) {
+              &:before {
+                background: #458be3;
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+    .step {
+      color: #aaa;
+      counter-increment: step;
+      cursor: pointer;
+      height: 2em;
+      margin: 0;
+      position: relative;
+      z-index: 2;
+      &:first-of-type {
+        background: linear-gradient(to right, #fff 50%, transparent 50%);
+      }
+      &:last-of-type {
+        background: linear-gradient(to right, transparent 50%, #fff 50%);
+      }
+      &:before {
+        align-items: center;
+        background: #ccc;
+        border-radius: 2em;
+        content: counter(step);
+        display: flex;
+        height: 2em;
+        justify-content: center;
+        margin: 0 auto 0.5em;
+        width: 2em;
+      }
+    }
+  }
+}

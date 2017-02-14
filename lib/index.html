@@ -1,0 +1,211 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="./node_modules/jquery-ui-dist/jquery-ui.min.css">
+        <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css"></link>
+        <link rel="stylesheet" href="./node_modules/font-awesome/css/font-awesome.css"></link>
+        <link rel="stylesheet" href="./dist/css/main.css">
+
+        <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="./node_modules/jquery-ui-dist/jquery-ui.min.js"></script>
+        <script src="./node_modules/knockout/build/output/knockout-latest.js"></script>
+        <script src="./node_modules/knockout-postbox/build/knockout-postbox.js"></script>
+        <script src="./dist/js/all.min.js"></script>
+
+
+    </head>
+    <body>
+    <nav class="navbar navbar-default">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">KAH</a>
+    </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+          <form id="wizard-form">
+            <div>
+
+                <!-- Wizard -->
+                <div id="wizard" class="wizard"
+                     data-bind="foreach: steps, attr: {'data-current-step': currentWizardStepId() + 1, 'data-steps': steps().length}">
+                  <p class="step" data-bind="text:name, click:function() {$parent.currentStep($data)}"></p>
+                </div>
+
+                <!-- Master Byline -->
+                <div class="masterByline">
+                  <div class="bylineItem" data-bind="visible: form.totalPrice() > 0">voraussichtlicher Preis: <span data-bind="text: readablePrice(form.totalPrice())"></span></div>
+                  <div class="bylineItem" data-bind="visible: form.totalMaxPersons() > 0">Personen: <span data-bind="text: form.totalMinPersons"></span> - <span data-bind="text: form.totalMaxPersons"></span></div>
+                  <div class="bylineItem" data-bind="visible: form.totalSquareMeters() > 0">Gesamtfläche: <span data-bind="text: form.totalSquareMeters"></span>m³</div>
+                </div>
+                <!-- Zelt -->
+                <div data-bind="template: { name: 'step1-template', data: steps()[0] }"></div>
+                <script type="text/html" id="step1-template">
+                    <div class="wizardStepView" data-bind="visible: isVisible">
+                      <h2>Meine Zelte</h2>
+                      <div class="addButton" data-bind="click: openSelectTent">
+                        <i class="fa fa-plus-circle"></i> Zelt hinzufügen
+                      </div>
+                      <ul class="listing" data-bind="foreach: wizardForm.selectedTents">
+                        <li>
+                          <div data-bind="template: { name: 'remove-row-template' }" />
+                          <div class="infos">
+                            <div class="title">
+                              <span data-bind="text: minPersons"></span> - <span data-bind="text: maxPersons"></span> Personen<span data-bind="text: $root.readablePrice(price)" class="price"></span>
+                            </div>
+                            <div class="byline">
+                              Länge: <span data-bind="text: length"></span>m | Breite: <span data-bind="text: width"></span>m | Fläche: <span data-bind="text: squareMeter"></span>m³
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <div data-bind="visible: wizardForm.selectedTents().length">
+                        <div class="total">
+                          <span>Total Zelte inkl. MwSt.</span><span class="price" data-bind="text: $root.readablePrice(wizardForm.totalTentsPrice())"></span>
+                        </div>
+                        <div class="info">
+                        <span>Total Personen</span><span class="price" data-bind="text: $root.readablePersons(wizardForm.totalMinPersons(), wizardForm.totalMaxPersons())">400 - 800 Personen</span>
+                        </div>
+                        <div class="info">
+                        </div>
+                      </div>
+                      <!-- <div data-bind="template: { name: 'navigation-controls-template' }" />       -->
+                    </div>
+                    <div data-bind="template: { name: 'select-tents-template', data: selectTentsSubStep }"></div>
+                </script>
+
+                <!-- Zubehör -->
+                <div data-bind="template: { name: 'step2-template', data: steps()[1] }"></div>
+                <script type="text/html" id="step2-template">
+                    <div class="wizardStepView" data-bind="visible: isVisible">
+                      <h2>Zubehör</h2>
+                      <div class="addButton" data-bind="click: openSelectEquipment">
+                        <i class="fa fa-plus-circle"></i> Zubehör hinzufügen
+                      </div>
+                      <ul class="listing" data-bind="foreach: wizardForm.selectedEquipments">
+                        <li>
+                          <div data-bind="template: { name: 'remove-row-template' }" />
+                          <div class="infos">
+                            <div class="title">
+                              <span data-bind="text: title"></span><span data-bind="text: $root.readablePrice(price)" class="price">
+                            </div>
+                            <div class="byline">
+                              <span data-bind="text: description"></span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <div data-bind="visible: wizardForm.selectedEquipments().length">
+                        <div class="total">
+                          <span>Total Equipment inkl. MwSt.</span><span class="price" data-bind="text: $root.readablePrice(wizardForm.totalEquipmentsPrice())"></span>
+                        </div>
+                        <div class="info">
+                        </div>
+                      </div>
+                    </div>
+                    <div data-bind="template: { name: 'select-equipment-template', data: selectEquipmentSubStep }"></div>
+                </script>
+
+                <!-- Kontakt -->
+                <div data-bind="template: { name: 'contact-template', data: steps()[2] }"></div>
+                <script type="text/html" id="contact-template">
+                    <div class="wizardStepView" data-bind="visible: isVisible">
+                      <h2>Kontakt</h2>
+                      <div class="contactForm">
+                        <label for="salutation">Anrede</label>
+                        <select id="salutation" data-bind="options: availableGenders" required></select>
+
+                        <label for="firstname">Vorname</label>
+                        <input id="firstname" type="text" placeholder="Vorname">
+
+                        <label for="lastname">Nachname</label>
+                        <input id="lastname" type="text" placeholder="Nachname" required>
+
+                        <label for="lastname">Firma</label>
+                        <input id="firma" type="text" placeholder="Firma">
+
+                        <label for="lastname">Strasse / Nr.</label>
+                        <input id="street" type="text" placeholder="Strasse" required>
+                        <input id="streetnr" type="text" placeholder="Nr." required>
+
+                        <label for="lastname">PLZ / Ort</label>
+                        <input id="plz" type="number" placeholder="PLZ" required>
+                        <input id="location" type="text" placeholder="Ort" required>
+                        
+                        <label for="lastname">E-Mail</label>
+                        <input id="email" type="email" placeholder="E-Mail" required>
+
+                        <label for="lastname">Telefon</label>
+                        <input id="phone" type="phone" placeholder="Telefon" required>
+                      </div>
+                    </div>
+                </script>
+
+                <!-- Zelt hinzufügen -->
+                <script type="text/html" id="select-tents-template">
+                    <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible">
+                      <h2>Zeltauswahl</h2>
+                      <ul class="listing selectable" data-bind="foreach: parent.wizardForm.tents">
+                          <li tab-index="10" data-bind="click: $parent.selectTent.bind($parent)">
+                            <div class="title">
+                              <span data-bind="text: minPersons"></span> - <span data-bind="text: maxPersons"></span> Personen<span data-bind="text: $root.readablePrice(price)" class="price"></span>
+                            </div>
+                            <div class="byline">
+                              Länge: <span data-bind="text: length"></span>m | Breite: <span data-bind="text: width"></span>m | Fläche: <span data-bind="text: squareMeter"></span>m³
+                            </div>
+                          </li>
+                      </ul>
+                    </div>
+                 </script>
+
+                <!-- Zubehör hinzufügen -->
+                <script type="text/html" id="select-equipment-template">
+                    <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible">
+                      <h2>Zubehörauswahl</h2>
+                      <ul class="listing selectable" data-bind="foreach: parent.wizardForm.equipments">
+                          <li data-bind="click: $parent.selectEquipment.bind($parent)">
+                            <div class="title">
+                              <span data-bind="text: title"></span><span data-bind="text: $root.readablePrice(price)" class="price">
+                            </div>
+                            <div class="byline">
+                              <span data-bind="text: description"></span>
+                            </div>
+                          </li>
+                      </ul>
+                    </div>
+                 </script>
+
+                 <!-- Navigation Controls -->
+                 <div class="navigationControls">
+                  <button data-bind="click: previous, visible: showPrevButton">Zurück</button>
+                  <input class="right highlight" type="submit" class="right" data-bind="visible: showSendButton" value="Offerte anfordern"/>
+                  <button class="right highlight" data-bind="click: next, visible: showNextButton">Weiter</button>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-2"></div>
+      </div>
+    </div>
+    
+    <script type="text/html" id="remove-row-template">
+      <div class="remove" data-bind="click: $parent.removeDataRow.bind($parent)">
+        <i class="fa fa-times" />
+      </div>
+    </script>
+    
+    </body>
+</html>
