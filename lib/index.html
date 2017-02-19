@@ -37,8 +37,13 @@
         <div class="col-md-2"></div>
         <div class="col-md-8">
           <form id="wizard-form">
+            <div class="notice info" data-bind="visible: mode() == 1">
+            Ihre Offerteanfrage wurde erfolgreich erstellt.
+            </div>
+            <div class="notice error" data-bind="visible: mode() == 2">
+              Bei der Offertanfrage ist ein Fehler aufgetreten. Bitte versuchen sie es erneut.
+            </div>
             <div>
-
                 <!-- Wizard -->
                 <div id="wizard" class="wizard"
                      data-bind="foreach: steps, attr: {'data-current-step': currentWizardStepId() + 1, 'data-steps': steps().length}">
@@ -129,27 +134,31 @@
                         <select id="salutation" data-bind="options: availableGenders" required></select>
 
                         <label for="firstname">Vorname</label>
-                        <input id="firstname" type="text" placeholder="Vorname">
+                        <input id="firstname" data-bind="value: $root.form.firstname" type="text" placeholder="Vorname">
 
                         <label for="lastname">Nachname</label>
-                        <input id="lastname" type="text" placeholder="Nachname" required>
+                        <input id="lastname" data-bind="value: $root.form.lastname" type="text" placeholder="Nachname" required>
 
-                        <label for="lastname">Firma</label>
-                        <input id="firma" type="text" placeholder="Firma">
+                        <label for="company">Firma</label>
+                        <input id="company" data-bind="value: $root.form.company" type="text" placeholder="Firma">
 
-                        <label for="lastname">Strasse / Nr.</label>
-                        <input id="street" type="text" placeholder="Strasse" required>
-                        <input id="streetnr" type="text" placeholder="Nr." required>
+                        <label for="street">Strasse</label>
+                        <input id="street" data-bind="value: $root.form.street" type="text" placeholder="Strasse" required>
 
-                        <label for="lastname">PLZ / Ort</label>
-                        <input id="plz" type="number" placeholder="PLZ" required>
-                        <input id="location" type="text" placeholder="Ort" required>
+                        <label for="streetnr">Nr.</label>
+                        <input id="streetnr" data-bind="value: $root.form.streetnr" type="text" placeholder="Nr." required>
+
+                        <label for="zip">PLZ</label>
+                        <input id="zip" data-bind="value: $root.form.zip" type="number" placeholder="PLZ" required>
+
+                         <label for="location">Ort</label>
+                        <input id="location" data-bind="value: $root.form.location" type="text" placeholder="Ort" required>
                         
-                        <label for="lastname">E-Mail</label>
-                        <input id="email" type="email" placeholder="E-Mail" required>
+                        <label for="email">E-Mail</label>
+                        <input id="email" data-bind="value: $root.form.email" type="email" placeholder="E-Mail" required>
 
-                        <label for="lastname">Telefon</label>
-                        <input id="phone" type="phone" placeholder="Telefon" required>
+                        <label for="phone">Telefon</label>
+                        <input id="phone" data-bind="value: $root.form.phone" type="phone" placeholder="Telefon" required>
                       </div>
                     </div>
                 </script>
@@ -191,7 +200,7 @@
                  <!-- Navigation Controls -->
                  <div class="navigationControls">
                   <button data-bind="click: previous, visible: showPrevButton">Zurück</button>
-                  <input class="right highlight" type="submit" class="right" data-bind="visible: showSendButton" value="Offerte anfordern"/>
+                  <input class="right highlight" type="submit" class="right" data-bind="click: send, visible: showSendButton" value="Offerte anfordern"/>
                   <button class="right highlight" data-bind="click: next, visible: showNextButton">Weiter</button>
                 </div>
             </div>

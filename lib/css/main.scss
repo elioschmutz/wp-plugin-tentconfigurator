@@ -12,6 +12,17 @@
 }
 
 #wizard-form {
+  .notice-error {
+    border-left-color: #dc3232;
+  }
+  .notice {
+    background: #fff;
+    border-left: 4px solid #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+    margin: 5px 15px 2px;
+    padding: 1px 12px;
+  }
   button.highlight,
   input.highlight {
     @include button();    
@@ -40,7 +51,6 @@
     padding: 1em;
     .contactForm {
       align-content: center;
-      width: 50%;
       > select,
       > input {
         width: 100%;
