@@ -69,7 +69,7 @@ gulp.task('styles-dist', function () {
 // Copy static html
 gulp.task('html', function() {
     gulp.src(paths.html)
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest(paths.dest));
 });
 
 // Copy all static images
@@ -83,13 +83,13 @@ gulp.task('serve', function () {
 
     // Serve files from the root of this project
     browserSync.init({
-        server: {
+        startPath:'./dist',
+        server:{
             baseDir: './'
         }
     });
 
     gulp.watch(paths.dest + "**/*").on("change", reload);
-    gulp.watch('./index.html').on("change", reload);
 });
 
 // Rerun the task when a file changes
