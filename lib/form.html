@@ -1,9 +1,12 @@
 <form id="wizard-form">
-    <div class="notice info" data-bind="visible: mode() == 1">
+    <div class="alert alert-success" role="alert" data-bind="visible: mode() == 1" style="display: none;">
     Ihre Offerteanfrage wurde erfolgreich erstellt.
     </div>
-    <div class="notice error" data-bind="visible: mode() == 2">
+    <div class="alert alert-danger" role="alert" data-bind="visible: mode() == 2" style="display: none;">
       Bei der Offertanfrage ist ein Fehler aufgetreten. Bitte versuchen sie es erneut.
+    </div>
+    <div class="alert alert-warning" role="alert" data-bind="visible: mode() == 3" style="display: none;">
+      Ihre Anfrage wird vorbereitet. Bitte haben sie ein wenig geduld...
     </div>
     <div>
         <!-- Wizard -->
@@ -14,14 +17,14 @@
 
         <!-- Master Byline -->
         <div class="masterByline">
-          <div class="bylineItem" data-bind="visible: form.totalPrice() > 0">voraussichtlicher Preis: <span data-bind="text: readablePrice(form.totalPrice())"></span></div>
-          <div class="bylineItem" data-bind="visible: form.totalMaxPersons() > 0">Personen: <span data-bind="text: form.totalMinPersons"></span> - <span data-bind="text: form.totalMaxPersons"></span></div>
-          <div class="bylineItem" data-bind="visible: form.totalSquareMeters() > 0">Gesamtfläche: <span data-bind="text: form.totalSquareMeters"></span>m³</div>
+          <div class="bylineItem" data-bind="visible: form.totalPrice() > 0" style="display: none;">voraussichtlicher Preis: <span data-bind="text: readablePrice(form.totalPrice())"></span></div>
+          <div class="bylineItem" data-bind="visible: form.totalMaxPersons() > 0" style="display: none;">Personen: <span data-bind="text: form.totalMinPersons"></span> - <span data-bind="text: form.totalMaxPersons"></span></div>
+          <div class="bylineItem" data-bind="visible: form.totalSquareMeters() > 0" style="display: none;">Gesamtfläche: <span data-bind="text: form.totalSquareMeters"></span>m³</div>
         </div>
         <!-- Zelt -->
         <div data-bind="template: { name: 'step1-template', data: steps()[0] }"></div>
         <script type="text/html" id="step1-template">
-            <div class="wizardStepView" data-bind="visible: isVisible">
+            <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
               <h2>Meine Zelte</h2>
               <div class="addButton" data-bind="click: openSelectTent">
                 <i class="fa fa-plus-circle"></i> Zelt hinzufügen
@@ -57,7 +60,7 @@
         <!-- Zubehör -->
         <div data-bind="template: { name: 'step2-template', data: steps()[1] }"></div>
         <script type="text/html" id="step2-template">
-            <div class="wizardStepView" data-bind="visible: isVisible">
+            <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
               <h2>Zubehör</h2>
               <div class="addButton" data-bind="click: openSelectEquipment">
                 <i class="fa fa-plus-circle"></i> Zubehör hinzufügen
@@ -89,7 +92,7 @@
         <!-- Kontakt -->
         <div data-bind="template: { name: 'contact-template', data: steps()[2] }"></div>
         <script type="text/html" id="contact-template">
-            <div class="wizardStepView" data-bind="visible: isVisible">
+            <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
               <h2>Kontakt</h2>
               <div class="contactForm">
                 <label for="salutation">Anrede</label>
@@ -127,7 +130,7 @@
 
         <!-- Zelt hinzufügen -->
         <script type="text/html" id="select-tents-template">
-            <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible">
+            <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible" style="display: none;">
               <h2>Zeltauswahl</h2>
               <ul class="listing selectable" data-bind="foreach: parent.wizardForm.tents">
                   <li tab-index="10" data-bind="click: $parent.selectTent.bind($parent)">
@@ -144,7 +147,7 @@
 
         <!-- Zubehör hinzufügen -->
         <script type="text/html" id="select-equipment-template">
-            <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible">
+            <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible" style="display: none;">
               <h2>Zubehörauswahl</h2>
               <ul class="listing selectable" data-bind="foreach: parent.wizardForm.equipments">
                   <li data-bind="click: $parent.selectEquipment.bind($parent)">
@@ -161,9 +164,9 @@
 
          <!-- Navigation Controls -->
          <div class="navigationControls">
-          <button data-bind="click: previous, visible: showPrevButton">Zurück</button>
-          <input class="right highlight" type="submit" class="right" data-bind="click: send, visible: showSendButton" value="Offerte anfordern"/>
-          <button class="right highlight" data-bind="click: next, visible: showNextButton">Weiter</button>
+          <button data-bind="click: previous, visible: showPrevButton" style="display: none;">Zurück</button>
+          <input class="right highlight" type="submit" class="right" data-bind="click: send, visible: showSendButton" value="Offerte anfordern" style="display: none;"/>
+          <button class="right highlight" data-bind="click: next, visible: showNextButton" style="display: none;">Weiter</button>
         </div>
     </div>
 </form>
