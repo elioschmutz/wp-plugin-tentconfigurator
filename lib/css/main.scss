@@ -10,6 +10,13 @@
     background-color: #45a7e3;
   }
 }
+#map {
+  width: 100%;
+  height: 400px;
+}
+.mk-invalid {
+  border: 1px solid #fd5e5e;
+}
 
 #wizard-form {
   .alert {
@@ -54,14 +61,11 @@
   .wizardStepView {
     display: block;
     padding: 1em;
-    .contactForm {
-      align-content: center;
-      > select,
-      > input {
-        width: 100%;
-        margin-bottom: 1em;
-        padding: 0.5em;
-      }
+    select,
+    input {
+      width: 100%;
+      margin-bottom: 1em;
+      padding: 0.5em;
     }
     .addButton {
       @include button();

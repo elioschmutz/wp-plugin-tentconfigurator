@@ -8,6 +8,9 @@
     <div class="alert alert-warning" role="alert" data-bind="visible: mode() == 3" style="display: none;">
       Ihre Anfrage wird vorbereitet. Bitte haben sie ein wenig geduld...
     </div>
+    <div class="alert alert-warning" role="alert" data-bind="visible: mode() == 4" style="display: none;">
+      Bitte füllen sie alle markierten Felder korrekt aus!
+    </div>
     <div>
         <!-- Wizard -->
         <div id="wizard" class="wizard"
@@ -89,41 +92,77 @@
             <div data-bind="template: { name: 'select-equipment-template', data: selectEquipmentSubStep }"></div>
         </script>
 
+        <!-- Anlass -->
+        <div data-bind="template: { name: 'event-template', data: steps()[2] }"></div>
+        <script type="text/html" id="event-template">
+          <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
+          <h2>Anlass</h2>
+          <div class="eventForm">
+            <label for="eventname">Anlass Name *</label>
+            <div class="alert alert-warning error-msg" style="display: none;"></div>
+            <input id="eventname" data-bind="value: $root.form.eventname" type="text" required></select>
+
+            <label for="startdate">Startdatum</label>
+            <div class="alert alert-warning error-msg" style="display: none;"></div>
+            <input id="startdate" data-bind="value: $root.form.startdate" type="date" required></select>
+
+            <label for="eventdays">Anzahl Tage</label>
+            <div class="alert alert-warning error-msg" style="display: none;"></div>
+            <input id="eventdays" data-bind="value: $root.form.eventdays" type="number" min="1" required></select>
+
+            <label for="eventlocation">Ort des Anlasses</label>
+            <div class="alert alert-warning error-msg" style="display: none;"></div>
+            <input id="eventlocation" data-bind="value: $root.form.eventlocation" type="text" required>
+
+          </div>
+          </div>
+        </script>
+
         <!-- Kontakt -->
-        <div data-bind="template: { name: 'contact-template', data: steps()[2] }"></div>
+        <div data-bind="template: { name: 'contact-template', data: steps()[3] }"></div>
         <script type="text/html" id="contact-template">
             <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
               <h2>Kontakt</h2>
               <div class="contactForm">
-                <label for="salutation">Anrede</label>
+                <label for="salutation">Anrede *</label>
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
                 <select id="salutation" data-bind="options: availableGenders" required></select>
 
-                <label for="firstname">Vorname</label>
-                <input id="firstname" data-bind="value: $root.form.firstname" type="text" placeholder="Vorname">
+                <label for="firstname">Vorname *</label>
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="firstname" data-bind="value: $root.form.firstname" type="text" required="required">
 
-                <label for="lastname">Nachname</label>
-                <input id="lastname" data-bind="value: $root.form.lastname" type="text" placeholder="Nachname" required>
+                <label for="lastname">Nachname *</label>
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="lastname" data-bind="value: $root.form.lastname" type="text" required="required">
 
                 <label for="company">Firma</label>
-                <input id="company" data-bind="value: $root.form.company" type="text" placeholder="Firma">
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="company" data-bind="value: $root.form.company" type="text" 
 
-                <label for="street">Strasse</label>
-                <input id="street" data-bind="value: $root.form.street" type="text" placeholder="Strasse" required>
+                <label for="street">Strasse *</label>
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="street" data-bind="value: $root.form.street" type="text" required>
 
-                <label for="streetnr">Nr.</label>
-                <input id="streetnr" data-bind="value: $root.form.streetnr" type="text" placeholder="Nr." required>
+                <label for="streetnr">Nr. *</label>
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="streetnr" data-bind="value: $root.form.streetnr" type="text"  required>
 
-                <label for="zip">PLZ</label>
-                <input id="zip" data-bind="value: $root.form.zip" type="number" placeholder="PLZ" required>
+                <label for="zip">PLZ *</label>
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="zip" data-bind="value: $root.form.zip" type="number" required>
 
-                 <label for="location">Ort</label>
-                <input id="location" data-bind="value: $root.form.location" type="text" placeholder="Ort" required>
+                 <label for="location">Ort *</label>
+                 <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="location" data-bind="value: $root.form.location" type="text" required>
                 
-                <label for="email">E-Mail</label>
-                <input id="email" data-bind="value: $root.form.email" type="email" placeholder="E-Mail" required>
+                <label for="email">E-Mail *</label>
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="email" data-bind="value: $root.form.email" type="email" required>
 
-                <label for="phone">Telefon</label>
-                <input id="phone" data-bind="value: $root.form.phone" type="phone" placeholder="Telefon" required>
+                <label for="phone">Telefon *</label>
+                <div class="alert alert-warning error-msg" style="display: none;"></div>
+                <input id="phone" data-bind="value: $root.form.phone" type="tel" required>
               </div>
             </div>
         </script>
