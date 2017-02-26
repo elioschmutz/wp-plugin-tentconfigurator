@@ -105,7 +105,7 @@
                 </td>
                 <td>
                   <div class="alert alert-warning error-msg" style="display: none;"></div>
-                  <input id="eventname" data-bind="value: $root.form.eventname" type="text" placeholder="Anlass Name" tabindex=1 required></select>
+                  <input id="eventname" data-bind="value: $root.form.eventname" type="text" placeholder="Anlass Name" tabindex=1 required />
                 </td>
               </tr>
 
@@ -115,7 +115,7 @@
                 </td>
                 <td>
                   <div class="alert alert-warning error-msg" style="display: none;"></div>
-                  <input id="startdate" data-bind="value: $root.form.startdate" type="date" tabindex=2 required></select>
+                  <input id="startdate" data-bind="value: $root.form.startdate" type="date" tabindex=2 required />
                 </td>
               </tr>
 
@@ -125,7 +125,7 @@
                 </td>
                 <td>
                   <div class="alert alert-warning error-msg" style="display: none;"></div>
-                  <input id="eventdays" data-bind="value: $root.form.eventdays" type="number" tabindex=3 min="1"></select>
+                  <input id="eventdays" data-bind="value: $root.form.eventdays" type="number" tabindex=3 min="1" />
                 </td>
               </tr>
 
@@ -135,7 +135,7 @@
                 </td>
                 <td>
                   <div class="alert alert-warning error-msg" style="display: none;"></div>
-                  <input id="eventlocation" data-bind="value: $root.form.eventlocation" type="text" tabindex=4 placeholder="Ort des Anlasses" required>
+                  <input id="eventlocation" data-bind="value: $root.form.eventlocation" type="text" tabindex=4 placeholder="Ort des Anlasses" required />
                   <span data-bind="visible: $root.addressNotFound">Es wurde keine Route zu der eingegebene Adresse gefunden.</span>
                 </td>
               </tr>
@@ -166,7 +166,7 @@
                     </td>
                     <td>
                       <div class="alert alert-warning error-msg" style="display: none;"></div>
-                      <input id="firstname" data-bind="value: $root.form.firstname" placeholder="Vorname" tabindex=2 type="text" required>
+                      <input id="firstname" data-bind="value: $root.form.firstname" placeholder="Vorname" tabindex=2 type="text" required />
                     </td>
                   </tr>
                   <tr>
@@ -175,7 +175,7 @@
                     </td>
                     <td>
                       <div class="alert alert-warning error-msg" style="display: none;"></div>
-                      <input id="lastname" data-bind="value: $root.form.lastname" placeholder="Nachname" tabindex=3 type="text" required>
+                      <input id="lastname" data-bind="value: $root.form.lastname" placeholder="Nachname" tabindex=3 type="text" required />
                     </td>
                   </tr>
                   <tr>
@@ -194,9 +194,9 @@
                   </td>
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="street" data-bind="value: $root.form.street" placeholder="Strasse" type="text" tabindex=5 required>
+                    <input id="street" data-bind="value: $root.form.street" placeholder="Strasse" type="text" tabindex=5 required />
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="streetnr" data-bind="value: $root.form.streetnr" placeholder="Nr." type="text" tabindex=6 required>
+                    <input id="streetnr" data-bind="value: $root.form.streetnr" placeholder="Nr." type="text" tabindex=6 required />
                   </td>
                 </tr>
                 <tr>
@@ -205,9 +205,9 @@
                   </td>
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="zip" data-bind="value: $root.form.zip" placeholder="PLZ" type="number" tabindex=7 required>
+                    <input id="zip" data-bind="value: $root.form.zip" placeholder="PLZ" type="number" tabindex=7 required />
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="location" data-bind="value: $root.form.location" placeholder="Ort" type="text" tabindex=8 required>
+                    <input id="location" data-bind="value: $root.form.location" placeholder="Ort" type="text" tabindex=8 required />
                   </td>
                 </tr>
                 <tr>
@@ -216,7 +216,7 @@
                   </td>
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="email" data-bind="value: $root.form.email" placeholder="E-Mail" type="email" tabindex=9 required>
+                    <input id="email" data-bind="value: $root.form.email" placeholder="E-Mail" type="email" tabindex=9 required />
                   </td>
                 </tr>
                 <tr>
@@ -225,9 +225,29 @@
                   </td>
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="phone" data-bind="value: $root.form.phone" placeholder="Telefon" type="tel" tabindex=10 required>
+                    <input id="phone" data-bind="value: $root.form.phone" placeholder="Telefon" type="tel" tabindex=10 required />
                   </td>
-                </tr>                
+                </tr>  
+                <tr>
+                  <td>
+                    <label for="comment">Kommentar</label>
+                  </td>
+                  <td>
+                    <textarea id="comment" data-bind="value: $root.form.comment" placeholder="Kommentar" rows="4" tabindex=11 required></textarea>
+                  </td>
+                </tr>  
+                <tr>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <div class="termsContainer">
+                      <input type="checkbox" id="acceptTerms" name="acceptTerms" value="accept" required>
+                    </div>
+                    <div class="termsText">Dies ist eine Offertanfrage. Ich habe verstanden, dass die hier angegebenen Preise sich von der effektiven Offerte unterscheiden können.</div>
+                  </td>
+                </tr>  
                 </body>
               </table>
         </script>

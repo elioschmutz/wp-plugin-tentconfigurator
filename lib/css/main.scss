@@ -66,15 +66,28 @@
     #streetnr, #zip {
       width: 5em;
     }
+    td:first-of-type {
+      padding-right: 1em;
+    }
+    .termsContainer {
+      float: left;
+    }
+    .termsText {
+      margin-left: 2em;
+    }
   }
   .wizardStepView {
     display: block;
     padding: 1em;
     select,
-    input {
+    input,
+    textarea {
       width: 100%;
       margin-bottom: 1em;
       padding: 0.5em;
+      &[type=checkbox] {
+        width: inherit;
+      }
     }
     .addButton {
       @include button();
