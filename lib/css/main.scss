@@ -58,6 +58,15 @@
       margin: 0.1em 0;
     }
   }
+  .contactForm, .eventForm {
+    width: 100%;
+    #street, #location {
+      width: calc(100% - 5em - 4px);
+    }
+    #streetnr, #zip {
+      width: 5em;
+    }
+  }
   .wizardStepView {
     display: block;
     padding: 1em;

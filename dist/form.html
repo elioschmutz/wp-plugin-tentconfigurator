@@ -20,9 +20,10 @@
 
         <!-- Master Byline -->
         <div class="masterByline">
-          <div class="bylineItem" data-bind="visible: form.totalPrice() > 0" style="display: none;">voraussichtlicher Preis: <span data-bind="text: readablePrice(form.totalPrice())"></span></div>
+          <div class="bylineItem" data-bind="visible: form.totalPrice() > 0" style="display: none;">Preis total: <span data-bind="text: readablePrice(form.totalPrice())"></span></div>
           <div class="bylineItem" data-bind="visible: form.totalMaxPersons() > 0" style="display: none;">Personen: <span data-bind="text: form.totalMinPersons"></span> - <span data-bind="text: form.totalMaxPersons"></span></div>
           <div class="bylineItem" data-bind="visible: form.totalSquareMeters() > 0" style="display: none;">Gesamtfläche: <span data-bind="text: form.totalSquareMeters"></span>m³</div>
+          <div class="bylineItem" data-bind="visible: form.transportPrice() > 0" style="display: none;">Transportkosten: <span data-bind="text: readablePrice(form.transportPrice())"></span></div>
         </div>
         <!-- Zelt -->
         <div data-bind="template: { name: 'step1-template', data: steps()[0] }"></div>
@@ -55,7 +56,6 @@
                 <div class="info">
                 </div>
               </div>
-              <!-- <div data-bind="template: { name: 'navigation-controls-template' }" />       -->
             </div>
             <div data-bind="template: { name: 'select-tents-template', data: selectTentsSubStep }"></div>
         </script>
@@ -97,24 +97,50 @@
         <script type="text/html" id="event-template">
           <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
           <h2>Anlass</h2>
-          <div class="eventForm">
-            <label for="eventname">Anlass Name *</label>
-            <div class="alert alert-warning error-msg" style="display: none;"></div>
-            <input id="eventname" data-bind="value: $root.form.eventname" type="text" required></select>
+          <table class="eventForm">
+            <body>
+              <tr>
+                <td>
+                  <label for="eventname">Anlass Name *</label>
+                </td>
+                <td>
+                  <div class="alert alert-warning error-msg" style="display: none;"></div>
+                  <input id="eventname" data-bind="value: $root.form.eventname" type="text" placeholder="Anlass Name" tabindex=1 required></select>
+                </td>
+              </tr>
 
-            <label for="startdate">Startdatum</label>
-            <div class="alert alert-warning error-msg" style="display: none;"></div>
-            <input id="startdate" data-bind="value: $root.form.startdate" type="date" required></select>
+              <tr>
+                <td>
+                  <label for="startdate">Startdatum *</label>
+                </td>
+                <td>
+                  <div class="alert alert-warning error-msg" style="display: none;"></div>
+                  <input id="startdate" data-bind="value: $root.form.startdate" type="date" tabindex=2 required></select>
+                </td>
+              </tr>
 
-            <label for="eventdays">Anzahl Tage</label>
-            <div class="alert alert-warning error-msg" style="display: none;"></div>
-            <input id="eventdays" data-bind="value: $root.form.eventdays" type="number" min="1" required></select>
+              <tr>
+                <td>
+                  <label for="eventdays">Anzahl Tage</label>
+                </td>
+                <td>
+                  <div class="alert alert-warning error-msg" style="display: none;"></div>
+                  <input id="eventdays" data-bind="value: $root.form.eventdays" type="number" tabindex=3 min="1"></select>
+                </td>
+              </tr>
 
-            <label for="eventlocation">Ort des Anlasses</label>
-            <div class="alert alert-warning error-msg" style="display: none;"></div>
-            <input id="eventlocation" data-bind="value: $root.form.eventlocation" type="text" required>
-
-          </div>
+              <tr>
+                <td>
+                  <label for="eventlocation">Ort des Anlasses *</label>
+                </td>
+                <td>
+                  <div class="alert alert-warning error-msg" style="display: none;"></div>
+                  <input id="eventlocation" data-bind="value: $root.form.eventlocation" type="text" tabindex=4 placeholder="Ort des Anlasses" required>
+                  <span data-bind="visible: $root.addressNotFound">Es wurde keine Route zu der eingegebene Adresse gefunden.</span>
+                </td>
+              </tr>
+              </body>
+            </table>
           </div>
         </script>
 
@@ -123,54 +149,94 @@
         <script type="text/html" id="contact-template">
             <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
               <h2>Kontakt</h2>
-              <div class="contactForm">
-                <label for="salutation">Anrede *</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <select id="salutation" data-bind="options: availableGenders" required></select>
+              <table class="contactForm">
+                <body>
+                  <tr>
+                    <td>
+                      <label for="salutation">Anrede *</label>
+                    </td>
+                    <td>
+                      <div class="alert alert-warning error-msg" style="display: none;"></div>
+                      <select id="salutation" data-bind="options: availableGenders" tabindex=1 required></select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="salutation">Vorname *</label>
+                    </td>
+                    <td>
+                      <div class="alert alert-warning error-msg" style="display: none;"></div>
+                      <input id="firstname" data-bind="value: $root.form.firstname" placeholder="Vorname" tabindex=2 type="text" required>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="lastname">Nachname *</label>
+                    </td>
+                    <td>
+                      <div class="alert alert-warning error-msg" style="display: none;"></div>
+                      <input id="lastname" data-bind="value: $root.form.lastname" placeholder="Nachname" tabindex=3 type="text" required>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label for="lastname">Firma</label>
+                    </td>
+                    <td>
+                      <div class="alert alert-warning error-msg" style="display: none;"></div>
+                      <input id="company" data-bind="value: $root.form.company" placeholder="Firma" tabindex=4 type="text" 
+                    </td>
+                  </tr>
 
-                <label for="firstname">Vorname *</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="firstname" data-bind="value: $root.form.firstname" type="text" required="required">
-
-                <label for="lastname">Nachname *</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="lastname" data-bind="value: $root.form.lastname" type="text" required="required">
-
-                <label for="company">Firma</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="company" data-bind="value: $root.form.company" type="text" 
-
-                <label for="street">Strasse *</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="street" data-bind="value: $root.form.street" type="text" required>
-
-                <label for="streetnr">Nr. *</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="streetnr" data-bind="value: $root.form.streetnr" type="text"  required>
-
-                <label for="zip">PLZ *</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="zip" data-bind="value: $root.form.zip" type="number" required>
-
-                 <label for="location">Ort *</label>
-                 <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="location" data-bind="value: $root.form.location" type="text" required>
-                
-                <label for="email">E-Mail *</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="email" data-bind="value: $root.form.email" type="email" required>
-
-                <label for="phone">Telefon *</label>
-                <div class="alert alert-warning error-msg" style="display: none;"></div>
-                <input id="phone" data-bind="value: $root.form.phone" type="tel" required>
-              </div>
-            </div>
+                <tr>
+                  <td>
+                    <label for="street">Strasse / Nr. *</label>
+                  </td>
+                  <td>
+                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <input id="street" data-bind="value: $root.form.street" placeholder="Strasse" type="text" tabindex=5 required>
+                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <input id="streetnr" data-bind="value: $root.form.streetnr" placeholder="Nr." type="text" tabindex=6 required>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="zip">PLZ / Ort *</label>
+                  </td>
+                  <td>
+                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <input id="zip" data-bind="value: $root.form.zip" placeholder="PLZ" type="number" tabindex=7 required>
+                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <input id="location" data-bind="value: $root.form.location" placeholder="Ort" type="text" tabindex=8 required>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="email">E-Mail *</label>
+                  </td>
+                  <td>
+                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <input id="email" data-bind="value: $root.form.email" placeholder="E-Mail" type="email" tabindex=9 required>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label for="phone">Telefon *</label>
+                  </td>
+                  <td>
+                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <input id="phone" data-bind="value: $root.form.phone" placeholder="Telefon" type="tel" tabindex=10 required>
+                  </td>
+                </tr>                
+                </body>
+              </table>
         </script>
 
         <!-- Zelt hinzufügen -->
         <script type="text/html" id="select-tents-template">
             <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible" style="display: none;">
               <h2>Zeltauswahl</h2>
+              <span>Wählen beliebige Zelte in der gewünschten Grösse.</span>
               <ul class="listing selectable" data-bind="foreach: parent.wizardForm.tents">
                   <li tab-index="10" data-bind="click: $parent.selectTent.bind($parent)">
                     <div class="title">
@@ -203,12 +269,12 @@
 
          <!-- Navigation Controls -->
          <div class="navigationControls">
-          <button data-bind="click: previous, visible: showPrevButton" style="display: none;">Zurück</button>
-          <input class="right highlight" type="submit" class="right" data-bind="click: send, visible: showSendButton" value="Offerte anfordern" style="display: none;"/>
-          <button class="right highlight" data-bind="click: next, visible: showNextButton" style="display: none;">Weiter</button>
+          <button data-bind="click: previous, visible: showPrevButton" style="display: none;"  type="button" tabindex=21>Zurück</button>
+          <button class="right highlight" data-bind="click: next, visible: showNextButton, text: nextButtonText" tabindex=20 style="display: none;">Weiter</button>
         </div>
     </div>
 </form>
+
 <script type="text/html" id="remove-row-template">
   <div class="remove" data-bind="click: $parent.removeDataRow.bind($parent)">
       <i class="fa fa-times"></i>
