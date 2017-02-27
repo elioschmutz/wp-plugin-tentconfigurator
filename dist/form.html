@@ -68,7 +68,7 @@
               <div class="addButton" data-bind="click: openSelectEquipment">
                 <i class="fa fa-plus-circle"></i> Zubehör hinzufügen
               </div>
-              <ul class="listing" data-bind="foreach: wizardForm.selectedEquipments">
+              <ul class="listing" data-bind="foreach: wizardForm.selectedEquipment">
                 <li>
                   <div data-bind="template: { name: 'remove-row-template' }" />
                   <div class="infos">
@@ -81,15 +81,15 @@
                   </div>
                 </li>
               </ul>
-              <div data-bind="visible: wizardForm.selectedEquipments().length">
+              <div data-bind="visible: wizardForm.selectedEquipment().length">
                 <div class="total">
-                  <span>Total Equipment inkl. MwSt.</span><span class="price" data-bind="text: $root.readablePrice(wizardForm.totalEquipmentsPrice())"></span>
+                  <span>Total Equipment inkl. MwSt.</span><span class="price" data-bind="text: $root.readablePrice(wizardForm.totalEquipmentPrice())"></span>
                 </div>
                 <div class="info">
                 </div>
               </div>
             </div>
-            <div data-bind="template: { name: 'select-equipment-template', data: selectEquipmentSubStep }"></div>
+            <div data-bind="template: { name: 'select-equipment-template', data: selectEquipmentubStep }"></div>
         </script>
 
         <!-- Anlass -->
@@ -274,7 +274,7 @@
         <script type="text/html" id="select-equipment-template">
             <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible" style="display: none;">
               <h2>Zubehörauswahl</h2>
-              <ul class="listing selectable" data-bind="foreach: parent.wizardForm.equipments">
+              <ul class="listing selectable" data-bind="foreach: parent.wizardForm.equipment">
                   <li data-bind="click: $parent.selectEquipment.bind($parent)">
                     <div class="title">
                       <span data-bind="text: title"></span><span data-bind="text: $root.readablePrice(price)" class="price">

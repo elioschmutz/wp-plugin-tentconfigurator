@@ -31,7 +31,7 @@ class Model {
                 'width' => 20,
                 'minPersons' => 100,
                 'maxPersons' => 150
-                ),
+            ),
             array(
                 'id' => 2,
                 'title' => 'Grosses Zelt',
@@ -40,24 +40,22 @@ class Model {
                 'width' => 20,
                 'minPersons' => 120,
                 'maxPersons' => 160
-                )
+            )
         );
     }
     public function get_equipment() {
         return array(
-        'equipment' => array(
             array(
                 'id' => 1,
                 'title' => 'Lampe',
                 'price' => 15,
                 'description' => 'kleine Lampe für das DJ Pult',
-                ),
+            ),
             array(
                 'id' => 2,
                 'title' => 'Tisch',
                 'price' => 20,
                 'description' => 'Tisch für 6 Personen inkl. 2 Bänke',
-                )
             )
         );
     }
