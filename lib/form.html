@@ -115,7 +115,7 @@
                 </td>
                 <td>
                   <div class="alert alert-warning error-msg" style="display: none;"></div>
-                  <input id="startdate" data-bind="value: $root.form.startdate" type="date" tabindex=2 required />
+                  <input id="startdate" data-bind="value: $root.form.eventstartdate" type="date" tabindex=2 required />
                 </td>
               </tr>
 
@@ -157,7 +157,7 @@
                     </td>
                     <td>
                       <div class="alert alert-warning error-msg" style="display: none;"></div>
-                      <select id="salutation" data-bind="options: availableGenders" tabindex=1 required></select>
+                      <select id="salutation" data-bind="options: availableGenders, value: $root.form.salutation, optionsCaption: 'Bitte wählen...'" tabindex=1 required></select>
                     </td>
                   </tr>
                   <tr>
@@ -166,7 +166,7 @@
                     </td>
                     <td>
                       <div class="alert alert-warning error-msg" style="display: none;"></div>
-                      <input id="firstname" data-bind="value: $root.form.firstname" placeholder="Vorname" tabindex=2 type="text" required />
+                      <input id="firstname" data-bind="textInput: $root.form.firstName" placeholder="Vorname" tabindex=2 type="text" required />
                     </td>
                   </tr>
                   <tr>
@@ -175,7 +175,7 @@
                     </td>
                     <td>
                       <div class="alert alert-warning error-msg" style="display: none;"></div>
-                      <input id="lastname" data-bind="value: $root.form.lastname" placeholder="Nachname" tabindex=3 type="text" required />
+                      <input id="lastname" data-bind="textInput: $root.form.lastName" placeholder="Nachname" tabindex=3 type="text" required />
                     </td>
                   </tr>
                   <tr>
@@ -184,7 +184,7 @@
                     </td>
                     <td>
                       <div class="alert alert-warning error-msg" style="display: none;"></div>
-                      <input id="company" data-bind="value: $root.form.company" placeholder="Firma" tabindex=4 type="text" 
+                      <input id="company" data-bind="textInput: $root.form.company" placeholder="Firma" tabindex=4 type="text" 
                     </td>
                   </tr>
 
@@ -194,9 +194,9 @@
                   </td>
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="street" data-bind="value: $root.form.street" placeholder="Strasse" type="text" tabindex=5 required />
+                    <input id="street" data-bind="textInput: $root.form.street" placeholder="Strasse" type="text" tabindex=5 required />
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="streetnr" data-bind="value: $root.form.streetnr" placeholder="Nr." type="text" tabindex=6 required />
+                    <input id="streetnr" data-bind="textInput: $root.form.streetnr" placeholder="Nr." type="text" tabindex=6 required />
                   </td>
                 </tr>
                 <tr>
@@ -205,9 +205,9 @@
                   </td>
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="zip" data-bind="value: $root.form.zip" placeholder="PLZ" type="number" tabindex=7 required />
+                    <input id="zip" data-bind="textInput: $root.form.zip" placeholder="PLZ" type="number" tabindex=7 required />
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="location" data-bind="value: $root.form.location" placeholder="Ort" type="text" tabindex=8 required />
+                    <input id="location" data-bind="textInput: $root.form.location" placeholder="Ort" type="text" tabindex=8 required />
                   </td>
                 </tr>
                 <tr>
@@ -216,7 +216,7 @@
                   </td>
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="email" data-bind="value: $root.form.email" placeholder="E-Mail" type="email" tabindex=9 required />
+                    <input id="email" data-bind="textInput: $root.form.email" placeholder="E-Mail" type="email" tabindex=9 required />
                   </td>
                 </tr>
                 <tr>
@@ -225,7 +225,7 @@
                   </td>
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="phone" data-bind="value: $root.form.phone" placeholder="Telefon" type="tel" tabindex=10 required />
+                    <input id="phone" data-bind="textInput: $root.form.phone" placeholder="Telefon" type="tel" tabindex=10 required />
                   </td>
                 </tr>  
                 <tr>
@@ -233,7 +233,7 @@
                     <label for="comment">Kommentar</label>
                   </td>
                   <td>
-                    <textarea id="comment" data-bind="value: $root.form.comment" placeholder="Kommentar" rows="4" tabindex=11 required></textarea>
+                    <textarea id="comment" data-bind="textInput: $root.form.comment" placeholder="Kommentar" rows="4" tabindex=11 required></textarea>
                   </td>
                 </tr>  
                 <tr>
@@ -243,7 +243,7 @@
                   <td>
                     <div class="alert alert-warning error-msg" style="display: none;"></div>
                     <div class="termsContainer">
-                      <input type="checkbox" id="acceptTerms" name="acceptTerms" value="accept" required>
+                      <input type="checkbox" id="acceptTerms" name="acceptTerms" data-bind="checked: $root.form.acceptTerms" value="accept" required>
                     </div>
                     <div class="termsText">Dies ist eine Offertanfrage. Ich habe verstanden, dass die hier angegebenen Preise sich von der effektiven Offerte unterscheiden können.</div>
                   </td>
