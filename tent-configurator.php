@@ -20,44 +20,15 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+include 'tent-configurator-tents.php';
+include 'tent-configurator-equipment.php';
+
 class Model {
     public function get_tents() {
-        return array(
-            array(
-                'id' => 1,
-                'title' => 'Grosses Zelt',
-                'price' => 15,
-                'length' => 4,
-                'width' => 20,
-                'minPersons' => 100,
-                'maxPersons' => 150
-            ),
-            array(
-                'id' => 2,
-                'title' => 'Grosses Zelt',
-                'price' => 18,
-                'length' => 4,
-                'width' => 20,
-                'minPersons' => 120,
-                'maxPersons' => 160
-            )
-        );
+        return $GLOBALS['tent_data'];
     }
     public function get_equipment() {
-        return array(
-            array(
-                'id' => 1,
-                'title' => 'Lampe',
-                'price' => 15,
-                'description' => 'kleine Lampe für das DJ Pult',
-            ),
-            array(
-                'id' => 2,
-                'title' => 'Tisch',
-                'price' => 20,
-                'description' => 'Tisch für 6 Personen inkl. 2 Bänke',
-            )
-        );
+        return $GLOBALS['equipment_data'];
     }
     public function get_data() {
         return array(
@@ -66,12 +37,6 @@ class Model {
             );
     }
 }
-function google_api() {
-    echo '<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqddQmeI9i2Ymt9kgrRPfZCio4uReQyI8&libraries=places&callback=initGoogleSearch"
-     async defer></script>';
-}
-add_action('admin_head', 'google_api');
-add_action('wp_head', 'google_api');
 
 function tentconfigurator_enqueue_script() {
   wp_enqueue_script(
@@ -80,7 +45,7 @@ function tentconfigurator_enqueue_script() {
 }
 
 function tentconfigurator_enqueue_styles() {
-  wp_enqueue_style( 'tent-configurator', plugin_dir_url( __FILE__ ) . 'dist/css/main.css', array(), '1.0.0', 'all' );  
+  wp_enqueue_style( 'tent-configurator', plugin_dir_url( __FILE__ ) . 'dist/css/main.css', array('dashicons'), '1.0.0', 'all' );  
 }
 
 add_action( 'wp_enqueue_scripts', 'tentconfigurator_enqueue_script' );
@@ -89,10 +54,13 @@ add_action( 'wp_enqueue_scripts', 'tentconfigurator_enqueue_styles' );
 add_shortcode('tent-configurator', 'tent_configurator_creation');
 
 function tent_configurator_creation() {
+    global $mk_options;
+    wp_enqueue_script('gmaps', 'https://maps.googleapis.com/maps/api/js?key='.$mk_options['google_maps_api_key'].'&libraries=places&callback=kah.tentconfigurator.initGoogleSearch', false, false, false);
     return file_get_contents( plugin_dir_url( __FILE__ ) . 'dist/form.html' );
 }
 
 add_action( 'wp_ajax_nopriv_kah_send_offer', 'kah_send_offer' );
+add_action( 'wp_ajax_kah_send_offer', 'kah_send_offer' );
 
 function kah_send_offer() {
     if ( ! json_decode($_POST['acceptTerms']) ) {
@@ -136,27 +104,72 @@ function kah_send_offer() {
     $selectedTentsString = '';
     foreach ($_POST['selectedTents'] as $key=>$value) {
         $index = $key + 1;
-        $selectedTentsString .= "
+        $tent_title = sanitize_text_field($value['title']);
+        $tent_price = sanitize_text_field($value['price']);
+        if ($tent_price == 0) {
+            $tent_price = "auf Anfrage";
+        } else {
+            $tent_price .= " CHF";
+        };
+        $tent_length = sanitize_text_field($value['length']);
+        $tent_width = sanitize_text_field($value['width']);
+        $tent_minPersons = sanitize_text_field($value['minPersons']);
+        $tent_maxPersons = sanitize_text_field($value['maxPersons']);
+        $tent_squareMeters = sanitize_text_field($value['squareMeters']);
+        $tent_selectedTentsString .= "
 Zelt {$index}
-Titel: {$value['title']}
-Preis pro Tag: {$value['price']} CHF
-Dimensionen (LxB): {$value['length']}m x {$value['width']}m
-Personen: {$value['minPersons']} - {$value['maxPersons']}
-Quadratmeter: {$value['squareMeter']}
+Titel: {$tent_title}
+Preis pro Tag: {$tent_price}
+Dimensionen (LxB): {$tent_length}m x {$tent_width}m
+Personen: {$tent_value['minPersons']} - {$tent_maxPersons}
+Quadratmeter: {$tent_squareMeters}
 ------------
         ";
     };
+
     unset($value);
 
-    // error_log( print_r($_POST['selectedTents'], TRUE) );
-    // error_log($_POST['selectedTents'][0]['title']);
-    $to = sanitize_email($_POST['email']);
-    $subject = "Zeltanfrage von {$salutation} {$firstName} {$lastName}";
-    $message = "Zeltanfrage von {$salutation} {$firstName} {$lastName} erhalten!
+    $selectedEquipmentString = '';
+    foreach ($_POST['selectedEquipment'] as $key=>$value) {
+        $index = $key + 1;
+        $equipment_title = sanitize_text_field($value['title']);
+        $equipment_price = sanitize_text_field($value['price']);
+        if ($equipment_price == 0) {
+            $equipment_price = "auf Anfrage";
+        } else {
+            $equipment_price .= " CHF";
+        };
+        $equipment_description = sanitize_text_field($value['description']);
+        $selectedEquipmentString .= "
+Equipment {$index}
+Titel: {$equipment_title}
+Preis pro Tag: {$equipment_price}
+Beschreibung: {$equipment_description}
+------------
+        ";
+    };
+    
+    unset($value);
+
+    $to_kah = get_option( 'admin_email' );
+    $to_customer = sanitize_email($_POST['email']);
+    $subject_kah = "Zeltanfrage von {$salutation} {$firstName} {$lastName}";
+    $subject_customer = "Offertanfrage für Zeltvermietung";
+    $message_customer = "Hallo {$salutation} {$lastName}
+
+Vielen Dank für Ihre Anfrage.
+
+Wir werden die Daten prüfen und anschliessen mit Ihnen Kontakt aufnehmen.
+
+Freundliche Grüße
+
+Kult-Agentur Hauta";
+
+    $message_kah = "Hey Leute! Wir haben eine neue Zeltanfrage erhalten.
 
 Voraussichtlicher Gesamtpreis: {$totalPrice} CHF
 
-Kommentar vom Kunden: ${comment}
+Kommentar: ${comment}
 
 Kontaktdaten:
 =============
@@ -181,17 +194,25 @@ Anzahl Tage: {$eventdays}
 Distanz pro Fahrt: {$eventlocationdistance} KM
 
 Ausgewählte Zelte:
+==================
 {$selectedTentsString}
 
-Ausgewähltes Equipment
+Ausgewähltes Equipment:
+=======================
+{$selectedEquipmentString}
 
-Unverbindliche Preise:
+Unverbindlich angezeigte Preise:
 ================================
-Total für {$eventdays} Tage: ${totalPrice}
-Zeltmiete pro Tag: ${totalTentsPrice}
-Equipmentmiete pro Tag: ${totalEquipmentPrice}
+Voraussichtlicher Gesamtpreis: {$totalPrice} CHF
+Total für {$eventdays} Tage: {$totalPrice} CHF
+Zeltmiete Total pro Tag: {$totalTentsPrice} CHF
+Equipmentmiete Total pro Tag: {$totalEquipmentPrice} CHF
+Transportkosten hin und zurück: {$transportPrice} CHF
 
-Transportkosten hin und zurück: 
+Sonstige Informationen
+======================
+Personenanzahl: von {$totalMinPersons} bis {$totalMaxPersons}
+Benötigte Quadratmeter für Zelte: {$totalSquareMeters}
 
 Weitere Schritte:
 =================
@@ -204,12 +225,14 @@ Gesendet mit ♥ von der Kultagentur-Hauta
     ";
     $headers = array('From:max.muster@gmail.com');
 
-    wp_mail( $to, $subject, $message, $headers );
+    wp_mail( $to_kah, $subject_kah, $message_kah, $headers );
+    wp_mail( $to_customer, $subject_customer, $message_customer, $headers );
     wp_die();
     
 }
 
 add_action( 'wp_ajax_nopriv_kah_get_data', 'kah_get_data' );
+add_action( 'wp_ajax_kah_get_data', 'kah_get_data' );
 
 function kah_get_data() {
     $model = new Model();

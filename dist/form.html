@@ -1,17 +1,17 @@
 <form id="wizard-form">
     <div class="alert alert-success" role="alert" data-bind="visible: mode() == 1" style="display: none;">
-    Ihre Offerteanfrage wurde erfolgreich erstellt.
+    Vielen Dank! Deine Offerteanfrage wurde erfolgreich versendet.
     </div>
     <div class="alert alert-danger" role="alert" data-bind="visible: mode() == 2" style="display: none;">
-      Bei der Offertanfrage ist ein Fehler aufgetreten. Bitte versuchen sie es erneut.
+      Bei der Offertanfrage ist ein Fehler aufgetreten. Bitte versuche es erneut.
     </div>
     <div class="alert alert-warning" role="alert" data-bind="visible: mode() == 3" style="display: none;">
-      Ihre Anfrage wird vorbereitet. Bitte haben sie ein wenig geduld...
+      Deine Anfrage wird vorbereitet. Bitte habe ein wenig Geduld...
     </div>
-    <div class="alert alert-warning" role="alert" data-bind="visible: mode() == 4" style="display: none;">
-      Bitte füllen sie alle markierten Felder korrekt aus!
+    <div class="alert alert-danger" role="alert" data-bind="visible: mode() == 4" style="display: none;">
+      Bitte fülle alle markierten Felder korrekt aus!
     </div>
-    <div>
+    <div data-bind=visible:!submitted()>
         <!-- Wizard -->
         <div id="wizard" class="wizard"
              data-bind="foreach: steps, attr: {'data-current-step': currentWizardStepId() + 1, 'data-steps': steps().length}">
@@ -31,17 +31,19 @@
             <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
               <h2>Meine Zelte</h2>
               <div class="addButton" data-bind="click: openSelectTent">
-                <i class="fa fa-plus-circle"></i> Zelt hinzufügen
+                <i class="fa fa-plus-circle dashicons dashicons-plus-alt"></i> Zelt hinzufügen
               </div>
               <ul class="listing" data-bind="foreach: wizardForm.selectedTents">
                 <li>
                   <div data-bind="template: { name: 'remove-row-template' }" />
                   <div class="infos">
                     <div class="title">
-                      <span data-bind="text: minPersons"></span> - <span data-bind="text: maxPersons"></span> Personen<span data-bind="text: $root.readablePrice(price)" class="price"></span>
+                      <span data-bind="text: title"></span>
+                      <span data-bind="text: $root.readablePrice(price), visible: price" class="price"></span>
+                      <span data-bind="visible: !price" class="price">auf Anfrage</span>
                     </div>
                     <div class="byline">
-                      Länge: <span data-bind="text: length"></span>m | Breite: <span data-bind="text: width"></span>m | Fläche: <span data-bind="text: squareMeter"></span>m³
+                      Länge: <span data-bind="text: length"></span>m | Breite: <span data-bind="text: width"></span>m | Fläche: <span data-bind="text: squareMeter"></span>m³ | <span data-bind="text: minPersons"></span> - <span data-bind="text: maxPersons"></span> Personen
                     </div>
                   </div>
                 </li>
@@ -64,16 +66,18 @@
         <div data-bind="template: { name: 'step2-template', data: steps()[1] }"></div>
         <script type="text/html" id="step2-template">
             <div class="wizardStepView" data-bind="visible: isVisible" style="display: none;">
-              <h2>Zubehör</h2>
+              <h2>Mein Zubehör</h2>
               <div class="addButton" data-bind="click: openSelectEquipment">
-                <i class="fa fa-plus-circle"></i> Zubehör hinzufügen
+                <i class="fa fa-plus-circle dashicons dashicons-plus-alt"></i> Zubehör hinzufügen
               </div>
               <ul class="listing" data-bind="foreach: wizardForm.selectedEquipment">
                 <li>
                   <div data-bind="template: { name: 'remove-row-template' }" />
                   <div class="infos">
                     <div class="title">
-                      <span data-bind="text: title"></span><span data-bind="text: $root.readablePrice(price)" class="price">
+                      <span data-bind="text: title"></span>
+                      <span data-bind="text: $root.readablePrice(price), visible: price" class="price"></span>
+                      <span data-bind="visible: !price" class="price">auf Anfrage</span>
                     </div>
                     <div class="byline">
                       <span data-bind="text: description"></span>
@@ -83,7 +87,7 @@
               </ul>
               <div data-bind="visible: wizardForm.selectedEquipment().length">
                 <div class="total">
-                  <span>Total Equipment inkl. MwSt.</span><span class="price" data-bind="text: $root.readablePrice(wizardForm.totalEquipmentPrice())"></span>
+                  <span>Total Zubehör inkl. MwSt.</span><span class="price" data-bind="text: $root.readablePrice(wizardForm.totalEquipmentPrice())"></span>
                 </div>
                 <div class="info">
                 </div>
@@ -104,7 +108,7 @@
                   <label for="eventname">Anlass Name *</label>
                 </td>
                 <td>
-                  <div class="alert alert-warning error-msg" style="display: none;"></div>
+                  <div class="alert alert-danger formValidationError" style="display: none;"></div>
                   <input id="eventname" data-bind="value: $root.form.eventname" type="text" placeholder="Anlass Name" tabindex=1 required />
                 </td>
               </tr>
@@ -114,7 +118,7 @@
                   <label for="startdate">Startdatum *</label>
                 </td>
                 <td>
-                  <div class="alert alert-warning error-msg" style="display: none;"></div>
+                  <div class="alert alert-danger formValidationError" style="display: none;"></div>
                   <input id="startdate" data-bind="value: $root.form.eventstartdate" type="date" tabindex=2 required />
                 </td>
               </tr>
@@ -124,7 +128,7 @@
                   <label for="eventdays">Anzahl Tage</label>
                 </td>
                 <td>
-                  <div class="alert alert-warning error-msg" style="display: none;"></div>
+                  <div class="alert alert-danger formValidationError" style="display: none;"></div>
                   <input id="eventdays" data-bind="value: $root.form.eventdays" type="number" tabindex=3 min="1" />
                 </td>
               </tr>
@@ -134,7 +138,7 @@
                   <label for="eventlocation">Ort des Anlasses *</label>
                 </td>
                 <td>
-                  <div class="alert alert-warning error-msg" style="display: none;"></div>
+                  <div class="alert alert-danger formValidationError" style="display: none;"></div>
                   <input id="eventlocation" data-bind="value: $root.form.eventlocation" type="text" tabindex=4 placeholder="Ort des Anlasses" required />
                   <span data-bind="visible: $root.addressNotFound">Es wurde keine Route zu der eingegebene Adresse gefunden.</span>
                 </td>
@@ -156,7 +160,7 @@
                       <label for="salutation">Anrede *</label>
                     </td>
                     <td>
-                      <div class="alert alert-warning error-msg" style="display: none;"></div>
+                      <div class="alert alert-danger formValidationError" style="display: none;"></div>
                       <select id="salutation" data-bind="options: availableGenders, value: $root.form.salutation, optionsCaption: 'Bitte wählen...'" tabindex=1 required></select>
                     </td>
                   </tr>
@@ -165,7 +169,7 @@
                       <label for="salutation">Vorname *</label>
                     </td>
                     <td>
-                      <div class="alert alert-warning error-msg" style="display: none;"></div>
+                      <div class="alert alert-danger formValidationError" style="display: none;"></div>
                       <input id="firstname" data-bind="textInput: $root.form.firstName" placeholder="Vorname" tabindex=2 type="text" required />
                     </td>
                   </tr>
@@ -174,16 +178,16 @@
                       <label for="lastname">Nachname *</label>
                     </td>
                     <td>
-                      <div class="alert alert-warning error-msg" style="display: none;"></div>
+                      <div class="alert alert-danger formValidationError" style="display: none;"></div>
                       <input id="lastname" data-bind="textInput: $root.form.lastName" placeholder="Nachname" tabindex=3 type="text" required />
                     </td>
                   </tr>
                   <tr>
                     <td>
-                      <label for="lastname">Firma</label>
+                      <label for="company">Firma</label>
                     </td>
                     <td>
-                      <div class="alert alert-warning error-msg" style="display: none;"></div>
+                      <div class="alert alert-danger formValidationError" style="display: none;"></div>
                       <input id="company" data-bind="textInput: $root.form.company" placeholder="Firma" tabindex=4 type="text" 
                     </td>
                   </tr>
@@ -193,9 +197,8 @@
                     <label for="street">Strasse / Nr. *</label>
                   </td>
                   <td>
-                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <div class="alert alert-danger formValidationError" style="display: none;"></div>
                     <input id="street" data-bind="textInput: $root.form.street" placeholder="Strasse" type="text" tabindex=5 required />
-                    <div class="alert alert-warning error-msg" style="display: none;"></div>
                     <input id="streetnr" data-bind="textInput: $root.form.streetnr" placeholder="Nr." type="text" tabindex=6 required />
                   </td>
                 </tr>
@@ -204,9 +207,8 @@
                     <label for="zip">PLZ / Ort *</label>
                   </td>
                   <td>
-                    <div class="alert alert-warning error-msg" style="display: none;"></div>
-                    <input id="zip" data-bind="textInput: $root.form.zip" placeholder="PLZ" type="number" tabindex=7 required />
-                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <div class="alert alert-danger formValidationError" style="display: none;"></div>
+                    <input id="zip" data-bind="textInput: $root.form.zip" placeholder="PLZ" type="text" tabindex=7 required />
                     <input id="location" data-bind="textInput: $root.form.location" placeholder="Ort" type="text" tabindex=8 required />
                   </td>
                 </tr>
@@ -215,7 +217,7 @@
                     <label for="email">E-Mail *</label>
                   </td>
                   <td>
-                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <div class="alert alert-danger formValidationError" style="display: none;"></div>
                     <input id="email" data-bind="textInput: $root.form.email" placeholder="E-Mail" type="email" tabindex=9 required />
                   </td>
                 </tr>
@@ -224,7 +226,7 @@
                     <label for="phone">Telefon *</label>
                   </td>
                   <td>
-                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <div class="alert alert-danger formValidationError" style="display: none;"></div>
                     <input id="phone" data-bind="textInput: $root.form.phone" placeholder="Telefon" type="tel" tabindex=10 required />
                   </td>
                 </tr>  
@@ -241,7 +243,7 @@
                     &nbsp;
                   </td>
                   <td>
-                    <div class="alert alert-warning error-msg" style="display: none;"></div>
+                    <div class="alert alert-danger formValidationError" style="display: none;"></div>
                     <div class="termsContainer">
                       <input type="checkbox" id="acceptTerms" name="acceptTerms" data-bind="checked: $root.form.acceptTerms" value="accept" required>
                     </div>
@@ -256,14 +258,16 @@
         <script type="text/html" id="select-tents-template">
             <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible" style="display: none;">
               <h2>Zeltauswahl</h2>
-              <span>Wählen beliebige Zelte in der gewünschten Grösse.</span>
+              <span>Wähle beliebige Zelte für dein Event aus.</span>
               <ul class="listing selectable" data-bind="foreach: parent.wizardForm.tents">
                   <li tab-index="10" data-bind="click: $parent.selectTent.bind($parent)">
                     <div class="title">
-                      <span data-bind="text: minPersons"></span> - <span data-bind="text: maxPersons"></span> Personen<span data-bind="text: $root.readablePrice(price)" class="price"></span>
+                      <span data-bind="text: title"></span>
+                      <span data-bind="text: $root.readablePrice(price), visible:price" class="price"></span>
+                      <span data-bind="visible: !price" class="price">auf Anfrage</span>
                     </div>
                     <div class="byline">
-                      Länge: <span data-bind="text: length"></span>m | Breite: <span data-bind="text: width"></span>m | Fläche: <span data-bind="text: squareMeter"></span>m³
+                      Länge: <span data-bind="text: length"></span>m | Breite: <span data-bind="text: width"></span>m | Fläche: <span data-bind="text: squareMeter"></span>m² | <span data-bind="text: minPersons"></span> - <span data-bind="text: maxPersons"></span> Personen
                     </div>
                   </li>
               </ul>
@@ -274,10 +278,13 @@
         <script type="text/html" id="select-equipment-template">
             <div class="wizardStepView wizardStepSubView" data-bind="visible: isVisible" style="display: none;">
               <h2>Zubehörauswahl</h2>
+              <span>Wähle beliebiges Zubehör für dein Event aus.</span>
               <ul class="listing selectable" data-bind="foreach: parent.wizardForm.equipment">
                   <li data-bind="click: $parent.selectEquipment.bind($parent)">
                     <div class="title">
-                      <span data-bind="text: title"></span><span data-bind="text: $root.readablePrice(price)" class="price">
+                      <span data-bind="text: title"></span>
+                      <span data-bind="text: $root.readablePrice(price), visible: price" class="price"></span>
+                      <span data-bind="visible: !price" class="price">auf Anfrage</span>
                     </div>
                     <div class="byline">
                       <span data-bind="text: description"></span>
@@ -297,6 +304,7 @@
 
 <script type="text/html" id="remove-row-template">
   <div class="remove" data-bind="click: $parent.removeDataRow.bind($parent)">
-      <i class="fa fa-times"></i>
+      <i class="fa fa-times dashicons dashicons-no"></i>
   </div>
 </script>
+

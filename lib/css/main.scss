@@ -35,6 +35,12 @@
     background-color: #f2dede;
     border-color: #ebccd1;
   }
+  .formValidationError {
+    padding: 5px 1em;
+    margin: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
   button.highlight,
   input.highlight {
     @include button();    
@@ -66,8 +72,16 @@
     #streetnr, #zip {
       width: 5em;
     }
+    td {
+      position: relative;
+      text-align: left;
+      padding: 0;
+    }
     td:first-of-type {
       padding-right: 1em;
+    }
+    td:last-of-type {
+      width: 70%;
     }
     .termsContainer {
       float: left;
@@ -85,9 +99,14 @@
       width: 100%;
       margin-bottom: 1em;
       padding: 0.5em;
+      box-sizing: border-box;
+      font-size: inherit;
       &[type=checkbox] {
         width: inherit;
       }
+    }
+    label {
+      white-space: nowrap;
     }
     .addButton {
       @include button();
@@ -108,8 +127,8 @@
       margin: 1em 0;
       padding: 0;
       li {
-        height: 75px;
         border-bottom: 1px solid #F2F2F2;
+        margin-left: 0;
         padding: 1em 0;
         .remove {
           font-size: 1.5em;
