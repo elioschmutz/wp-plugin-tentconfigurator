@@ -56,7 +56,7 @@ add_shortcode('tent-configurator', 'tent_configurator_creation');
 function tent_configurator_creation() {
     global $mk_options;
     wp_enqueue_script('gmaps', 'https://maps.googleapis.com/maps/api/js?key='.$mk_options['google_maps_api_key'].'&libraries=places&callback=kah.tentconfigurator.initGoogleSearch', false, false, false);
-    return file_get_contents( plugin_dir_url( __FILE__ ) . 'dist/form.html' );
+    return file_get_contents( __DIR__ . '/dist/form.html' );
 }
 
 add_action( 'wp_ajax_nopriv_kah_send_offer', 'kah_send_offer' );
