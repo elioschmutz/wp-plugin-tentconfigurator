@@ -39,10 +39,10 @@ class Model {
 }
 
 function tentconfigurator_enqueue_script() {
-  wp_enqueue_script('promisepoli', 'https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js', false, false, false);
+  wp_enqueue_script('babelpolyfill', 'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.23.0/polyfill.min.js', false, false, false);
   wp_enqueue_script(
     'tent-configurator', plugin_dir_url( __FILE__ ) . 'dist/js/all.min.js',
-    array( 'jquery', 'knockoutjs', 'promisepoli'), '1.0.0', false );
+    array( 'jquery', 'knockoutjs', 'babelpolyfill'), '1.0.0', false );
 }
 
 function tentconfigurator_enqueue_styles() {
