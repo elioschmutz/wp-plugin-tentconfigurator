@@ -13,9 +13,11 @@
     </div>
     <div data-bind=visible:!submitted()>
         <!-- Wizard -->
-        <div id="wizard" class="wizard"
-             data-bind="foreach: steps, attr: {'data-current-step': currentWizardStepId() + 1, 'data-steps': steps().length}">
-          <p class="step" data-bind="text:name, click:function() {$parent.currentStep($data)}"></p>
+        <div id="wizard-steps-container" data-bind="attr: {'data-current-step': currentWizardStepId() + 1, 'data-steps': steps().length}">
+          <div id="wizard" class="wizard"
+               data-bind="foreach: steps">
+            <p class="step" data-bind="text:name, click:function() {$parent.currentStep($data)}"></p>
+          </div>
         </div>
 
         <!-- Master Byline -->

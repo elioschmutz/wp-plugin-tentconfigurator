@@ -166,13 +166,10 @@
 
     }
   }
-  .wizard {
+  #wizard-steps-container {
     $max-steps: 6;
-    counter-reset: step;
-    display: flex;
-    justify-content: space-between;
-    margin: 2em 2em 3em 2em;
     position: relative;
+    margin: 2em 2em 3em 2em;
     &:before,
     &:after {
       content: '';
@@ -188,58 +185,64 @@
       transition: right 0.5s;
     }
     @for $i from 2 through $max-steps {
-      &[data-steps="#{$i}"] {
-        @for $j from 1 through ($i) {
-          &[data-current-step="#{$j}"] {
-            &:after {
-              right: 100% - ($j - 1) * (100% / ($i - 1));
-            }
-            & p:nth-child(#{$j}) {
-              color: black;
-            }
-          }
-          @for $y from 0 through $j - 1 {
-            &[data-current-step="#{$j}"] p:nth-child(#{$y}) {
-              &:before {
-                content: '✔︎';
+        &[data-steps="#{$i}"] {
+          @for $j from 1 through ($i) {
+            &[data-current-step="#{$j}"] {
+              &:after {
+                right: 100% - ($j - 1) * (100% / ($i - 1));
+              }
+              & p:nth-child(#{$j}) {
+                color: black;
               }
             }
-          }
-          @for $y from 1 through $j {
-            &[data-current-step="#{$j}"] p:nth-child(#{$y}) {
-              &:before {
-                background: #458be3;
-                color: #fff;
+            @for $y from 0 through $j - 1 {
+              &[data-current-step="#{$j}"] p:nth-child(#{$y}) {
+                &:before {
+                  content: '✔︎';
+                }
+              }
+            }
+            @for $y from 1 through $j {
+              &[data-current-step="#{$j}"] p:nth-child(#{$y}) {
+                &:before {
+                  background: #458be3;
+                  color: #fff;
+                }
               }
             }
           }
         }
       }
-    }
-    .step {
-      color: #aaa;
-      counter-increment: step;
-      cursor: pointer;
-      height: 2em;
-      margin: 0;
+    .wizard {
+      counter-reset: step;
+      display: flex;
+      justify-content: space-between;
       position: relative;
-      z-index: 2;
-      &:first-of-type {
-        background: linear-gradient(to right, #fff 50%, transparent 50%);
-      }
-      &:last-of-type {
-        background: linear-gradient(to right, transparent 50%, #fff 50%);
-      }
-      &:before {
-        align-items: center;
-        background: #ccc;
-        border-radius: 2em;
-        content: counter(step);
-        display: flex;
+      .step {
+        color: #aaa;
+        counter-increment: step;
+        cursor: pointer;
         height: 2em;
-        justify-content: center;
-        margin: 0 auto 0.5em;
-        width: 2em;
+        margin: 0;
+        position: relative;
+        z-index: 2;
+        &:first-of-type {
+          background: linear-gradient(to right, #fff 50%, transparent 50%);
+        }
+        &:last-of-type {
+          background: linear-gradient(to right, transparent 50%, #fff 50%);
+        }
+        &:before {
+          align-items: center;
+          background: #ccc;
+          border-radius: 2em;
+          content: counter(step);
+          display: flex;
+          height: 2em;
+          justify-content: center;
+          margin: 0 auto 0.5em;
+          width: 2em;
+        }
       }
     }
   }
