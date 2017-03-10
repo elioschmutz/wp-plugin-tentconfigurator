@@ -1,5 +1,8 @@
+$color-primary: #AB0006;
+$color-hover: #de030e;
+
 @mixin button {
-  background-color: #458be3;
+  background-color: $color-primary;
   color: white;
   border: 1px solid #ddd;
   padding: 0.5em 1em;
@@ -7,15 +10,12 @@
   display: inline-block;
   align-items: center;
   &:hover {
-    background-color: #45a7e3;
+    background-color: $color-hover;
   }
 }
 #map {
   width: 100%;
   height: 400px;
-}
-.mk-invalid {
-  border: 1px solid #fd5e5e;
 }
 
 #wizard-form {
@@ -185,7 +185,7 @@
       background: #ccc;
     }
     &:after {
-      background: #458be3;
+      background: $color-primary;
       transition: right 0.5s;
     }
     @for $i from 2 through $max-steps {
@@ -209,7 +209,7 @@
             @for $y from 1 through $j {
               &[data-current-step="#{$j}"] p:nth-child(#{$y}) {
                 &:before {
-                  background: #458be3;
+                  background: $color-primary;
                   color: #fff;
                 }
               }
