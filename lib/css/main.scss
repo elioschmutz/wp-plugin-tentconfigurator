@@ -109,6 +109,10 @@
       &[type=checkbox] {
         width: inherit;
       }
+      &:required {
+        // Firefox
+        box-shadow: none;
+      }
     }
     label {
       white-space: nowrap;
