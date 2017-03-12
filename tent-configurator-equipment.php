@@ -5,7 +5,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 $equipment_data = array(
-    array('id' => 0, 'title' => 'keine genaue Equipmentvorstellung', 'price' => 0, 'description' => ''),
+    array('id' => 0, 'title' => 'keine genaue Zubehörvorstellung', 'price' => 0, 'description' => ''),
     array('id' => 1, 'title' => 'Tisch 3m', 'price' => 6, 'description' => 'für 8 Personen'),
     array('id' => 2, 'title' => 'Tisch 5m', 'price' => 10, 'description' => 'für 12 Personen'),
     array('id' => 3, 'title' => 'Bühneelement  2.5m x 2.5m', 'price' => 50, 'description' => 'mehrere Elemente können zu einer grossen Bühne zusammengestellt werden.'),
